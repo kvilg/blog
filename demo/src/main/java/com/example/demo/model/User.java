@@ -20,12 +20,8 @@ public class User implements Serializable {
     private String password;
 
 
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    @JoinColumn(name = "userId")
-    private Set<Post> postSet = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Post> postUser = new HashSet<>();
 
     private Blob img;
 
@@ -87,11 +83,11 @@ public class User implements Serializable {
     }
 
     public Set<Post> getPostSet() {
-        return postSet;
+        return postUser;
     }
 
     public void addPost(Post post) {
-        this.postSet.add(post);
+        this.postUser.add(post);
     }
 
 }

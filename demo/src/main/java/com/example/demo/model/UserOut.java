@@ -34,11 +34,12 @@ public class UserOut {
         this.login = user.getLogin();
 
 
-        byte[] bytes = user.getImg().getBytes(1l, (int) user.getImg().length());
 
-        String str1 = new String(bytes);
+        if(user.getImg() != null){
+            byte[] bytes = user.getImg().getBytes(1l, (int) user.getImg().length());
 
+            this.img = new String(bytes);
+        }
 
-        this.img = str1;
     }
 }

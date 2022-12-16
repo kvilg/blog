@@ -3,7 +3,7 @@ const pass = document.getElementById('password');
 
 const btn = document.getElementById('btn');
 
-alert("ss")
+
 
 btn.addEventListener("click", () => {
 

@@ -8,7 +8,7 @@ import java.util.Set;
 public class ModelPosts {
     public LinkedList<PostM> posts = new LinkedList<>();
 
-    public ModelPosts(Set<Post> postsUser) throws SQLException {
+    public ModelPosts(List<Post> postsUser) throws SQLException {
 
         for(Post p : postsUser){
             this.posts.add(new PostM(p));

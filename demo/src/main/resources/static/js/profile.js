@@ -8,7 +8,7 @@ const btnUpdateImgUser = document.getElementById('btn-main-foto');
 
 const btnAddPost = document.getElementById('btn-main-post');
 
-
+const btnUpdatePost = document.getElementById('btn-main-update-post');
 
 
 
@@ -28,6 +28,7 @@ function render() {
             let json = await response.json();
 
 
+
             name.innerHTML = json.name;
             login.innerHTML = json.login;
             img.src = json.img;
@@ -38,58 +39,59 @@ function render() {
 
     })();
 
-    getPosts();
+    //  getPosts();
 
 }
 
 render();
 
 
-function getPosts() {
-    (async() => {
+// function getPosts() {
+//     (async() => {
 
-        let response = await fetch('/get/posts', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-                'Authorization': getCookie('TOKEN')
-            }
-        });
+//         let response = await fetch('/get/posts', {
+//             method: 'GET',
+//             headers: {
+//                 'Content-Type': 'application/json;charset=utf-8',
+//                 'Authorization': getCookie('TOKEN')
+//             }
+//         });
 
-        if (response.ok) {
+//         if (response.ok) {
 
-            let json = await response.json();
+//             let json = await response.json();
 
-            console.log(json);
+//             console.log(json);
 
+//             console.log("ddsdsd");
 
-            let posts = document.getElementById('posts');
-            posts.innerHTML = ``;
+//             let posts = document.getElementById('posts');
+//             posts.innerHTML = ``;
 
-            for (let i = 0; i < json.posts.length; i++) {
+//             for (let i = 0; i < json.posts.length; i++) {
 
-                posts.innerHTML +=
-                    `<div class="block-base-r">
-                    <div class="block-img">
-                        <img class="block-img-tr" src="` + json.posts[i].img + `" alt="">
-                    </div>
-                    <div class="text-block">
-                        ` + json.posts[i].text + `
-                    </div>
-                </div>`;
+//                 posts.innerHTML +=
+//                     `<div class="block-base-r">
+//                     <div class="block-img">
+//                         <img class="block-img-tr" src="` + json.posts[i].img + `" alt="">
+//                     </div>
+//                     <div class="text-block">
+//                         ` + json.posts[i].text + `
+//                     </div>
+//                 </div>`;
 
-            }
-
-
-
+//             }
 
 
-        } else {
-            alert("Ошибка HTTP: ");
-        }
 
-    })();
-}
+
+
+//         } else {
+//             alert("Ошибка HTTP: ");
+//         }
+
+//     })();
+// }
 
 btnUpdateImgUser.addEventListener("click", () => {
 
@@ -208,6 +210,8 @@ btnAddPost.addEventListener("click", () => {
         var reader = new FileReader();
         let textPost = document.getElementById('textPost').value;
         reader.readAsDataURL(file);
+
+
         reader.onload = function() {
 
 
@@ -241,6 +245,71 @@ btnAddPost.addEventListener("click", () => {
     }
 
 
+
+
+});
+
+
+let countsPostUpdate = 0;
+btnUpdatePost.addEventListener("click", () => {
+    (async() => {
+
+        let img = {
+            counts: countsPostUpdate
+        };
+
+        let response = await fetch('/get/posts', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'user': login.innerHTML,
+                'counts': countsPostUpdate
+            }
+        });
+
+        if (response.ok) {
+            console.log('ok');
+
+            countsPostUpdate = countsPostUpdate + 1;
+
+
+
+            let json = await response.json();
+
+            console.log(json);
+
+            console.log("ddsdsd");
+
+            let posts = document.getElementById('posts');
+
+
+            for (let i = 0; i < json.posts.length; i++) {
+
+                posts.innerHTML +=
+                    `<div class="block-base-r">
+                    <div class="block-img">
+                        <img class="block-img-tr" src="` + json.posts[i].img + `" alt="">
+                    </div>
+                    <div class="text-block">
+                        ` + json.posts[i].text + `
+                    </div>
+                </div>`;
+
+            }
+
+
+
+
+
+
+
+
+
+        } else {
+            alert("Ошибка HTTP: ");
+        }
+
+    })()
 
 
 });

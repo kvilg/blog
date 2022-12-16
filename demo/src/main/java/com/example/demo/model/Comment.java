@@ -15,6 +15,9 @@ public class Comment {
 
     private String text;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Post post;
+
     public Comment(){
 
     }

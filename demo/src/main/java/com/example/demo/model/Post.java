@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,27 +20,28 @@ public class Post {
 
     private Blob img;
 
+    private Timestamp timePost;
 
-
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    @JoinColumn(name = "postId")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
 
     public Post(){
 
     }
 
-    public Post(String img, String text) throws SQLException {
+    public Post(String img, String text , Timestamp time,User user) throws SQLException {
 
         byte[] byteData = img.getBytes();
 
         this.img = new SerialBlob(byteData);
         this.text = text;
-
-
+        this.timePost = time;
+        this.user = user;
     }
 
 
