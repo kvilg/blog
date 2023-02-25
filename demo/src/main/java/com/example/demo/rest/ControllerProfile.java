@@ -102,7 +102,9 @@ public class ControllerProfile {
 
 
     @PostMapping(value="/add/comment")
-    public String addComment(@RequestBody String json,@RequestHeader("Authorization") String token,@RequestHeader("idPost") Long idPost) throws Exception {
+    public String addComment(@RequestBody String json,
+                             @RequestHeader("Authorization") String token,
+                             @RequestHeader("idPost") Long idPost) throws Exception {
 
         String a = token.substring(TOKEN_PREFIX.length());
         String userLogin = jwtTokenUtil.getUsernameFromToken(a);
@@ -122,8 +124,6 @@ public class ControllerProfile {
 
 
         Gson gson = new Gson();
-
-
 
         Set<Comment> commentsSet = commentService.getComments(postService.getPostById(idPost));
 

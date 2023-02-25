@@ -22,9 +22,11 @@ public class Comment {
 
     }
 
-    public Comment(User user, String text) {
+
+    public Comment(User user, String text, Post post) {
         this.user = user;
         this.text = text;
+        this.post = post;
     }
 
     public Long getId() {

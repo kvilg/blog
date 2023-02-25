@@ -27,7 +27,7 @@ public class CommentService {
 
         Post post = dataPost.getById(postId);
 
-        Comment comment = new Comment(user,text);
+        Comment comment = new Comment(user,text,post);
 
         post.addComments(comment);
 

@@ -49,7 +49,7 @@ public class ModelPosts {
         public CommentM(Comment comment){
             this.id = comment.getId();
             this.userName = comment.getUser().getLogin();
-            this.userName = comment.getText();
+            this.text = comment.getText();
 
         }
     }

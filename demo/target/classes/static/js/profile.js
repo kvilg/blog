@@ -10,6 +10,8 @@ const btnAddPost = document.getElementById('btn-main-post');
 
 const btnUpdatePost = document.getElementById('btn-main-update-post');
 
+let btnTextComent = document.querySelectorAll('.btnCoent');
+
 
 
 function render() {
@@ -285,31 +287,86 @@ btnUpdatePost.addEventListener("click", () => {
 
             for (let i = 0; i < json.posts.length; i++) {
 
+                let comentsInPost = ``;
+
+                for (let j = 0; j < json.posts[i].comments.length; j++) {
+                    comentsInPost += `<div class="text-block">
+                                        ` + json.posts[i].comments[j].userName + `  -  ` + json.posts[i].comments[j].text + `
+                                    </div>`;
+
+                }
+
+
+
+
+
                 posts.innerHTML +=
                     `<div class="block-base-r">
-                    <div class="block-img">
-                        <img class="block-img-tr" src="` + json.posts[i].img + `" alt="">
-                    </div>
                     <div class="text-block">
                         ` + json.posts[i].text + `
                     </div>
+                    <div class="block-img">
+                        <img class="block-img-tr" src="` + json.posts[i].img + `" alt="">
+                    </div>
+                    ` + comentsInPost + `
+                    <div class="text-block">
+                        <input type="text" id="textComent" />
+                        <button class="btn-base btnComent" id="` + json.posts[i].id + `"></button>
+                    </div>
                 </div>`;
-
             }
 
+            btnTextComent += document.querySelectorAll('.btnComent');
 
-
-
-
-
-
-
+            createBtnoment();
 
         } else {
             alert("Ошибка HTTP: ");
         }
 
     })()
-
-
 });
+
+
+
+function createBtnoment() {
+
+
+    for (let i = 0; i < btnTextComent.length; i++) {
+
+        btnTextComent[i].addEventListener("click", () => {
+            console.log("sssssssssssssssssssssssssss");
+
+            console.log(btnTextComent[i].closest('div'));
+            console.log(btnTextComent[i].closest('div').querySelector('input'));
+            (async() => {
+                let req = {
+                    text: btnTextComent[i].closest('div').querySelector('input').value
+                };
+
+                let response = await fetch('/add/comment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8',
+                        'Authorization': getCookie('TOKEN'),
+                        'idPost': btnTextComent[i].id
+                    },
+                    body: JSON.stringify(req)
+                });
+
+                if (response.ok) {
+
+
+
+                    console.log(response);
+
+                }
+
+            })()
+
+
+        });
+
+    }
+
+}
